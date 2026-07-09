@@ -18,7 +18,6 @@
   --line:#333;
   --line-soft:#2a2a2a;
   --accent:#d4d4d4;
-  --accent2:#666;
   --panel:rgba(255,255,255,.03);
   --panel-hi:rgba(255,255,255,.055);
   --hover:rgba(255,255,255,.07);
@@ -39,7 +38,6 @@
   --line:#ccc;
   --line-soft:#ddd;
   --accent:#1a1a1a;
-  --accent2:#888;
   --panel:rgba(0,0,0,.03);
   --panel-hi:rgba(0,0,0,.055);
   --hover:rgba(0,0,0,.07);
@@ -247,14 +245,6 @@ body::after{
   color:var(--ink-dim);
 }
 
-.hero-sub{
-  font-family:var(--font-body);
-  font-size:12.1px;
-  letter-spacing:.04em;
-  color:var(--ink-dim);
-  line-height:1.8;
-  max-width:420px;
-}
 
 .hero-meta{
   font-family:var(--font-tech);
@@ -451,50 +441,6 @@ footer{
 [data-hide]{display:none!important}
 .no-scroll{overflow:hidden}
 
-/* status dot themes */
-[data-palette="amber"] body,[data-palette="amber"]{--accent-spot:#ff7a18}
-[data-palette="green"] body,[data-palette="green"]{--accent-spot:#39ff14}
-[data-palette="blue"] body,[data-palette="blue"]{--accent-spot:#4af}
-
-/* ── TAB STRIPS ── */
-.tab-strips{
-  border-bottom:1px solid var(--line);
-}
-.tab-strip{
-  display:flex;align-items:center;gap:0;
-  border-bottom:1px solid var(--line);
-  overflow-x:auto;scrollbar-width:none;
-}
-.tab-strip:last-child{border-bottom:none}
-.tab-strip::-webkit-scrollbar{display:none}
-
-.strip-label{
-  flex-shrink:0;
-  padding:0 18px;
-  font-family:var(--font-tech);font-size:9.9px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--ink-ghost);
-  border-right:1px solid var(--line);
-  height:50px;display:flex;align-items:center;
-  min-width:120px;
-}
-
-.tab-btn{
-  flex-shrink:0;
-  padding:0 24px;
-  height:50px;
-  font-family:var(--font-tech);font-size:9.9px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--ink-ghost);background:transparent;border:none;cursor:pointer;
-  border-right:1px solid var(--line);
-  border-bottom:2px solid transparent;
-  transition:color var(--transition),background var(--transition),border-color var(--transition);
-}
-.tab-btn:hover{color:var(--ink-dim);background:var(--panel)}
-.tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);background:var(--panel)}
-
-.tab-panel{display:block}
-.tab-panel.hidden{display:none}
-
-.grid.single{grid-template-columns:1fr;max-width:100%}
 </style>
 </head>
 <body>
@@ -577,7 +523,7 @@ footer{
 
   </div>
   <div class="hero-meta">
-    <div><b>DOMAIN</b> &nbsp; SCIENCE · MUSIC · ART · GAME</div>
+    <div><b>DOMAIN</b> &nbsp; SCIENCE · MUSIC · ART</div>
     <div style="padding-left:5.2em"> MOTORSPORT</div>
     <div><b>APPROACH</b> &nbsp;
       PROTOTYPE → REFINE → RELEASE
@@ -595,15 +541,14 @@ footer{
 <nav class="filter-bar" id="filterBar">
   <button class="filter-btn active" data-filter="all">
     ALL
-    <span class="filter-count">6</span>
+    <span class="filter-count">5</span>
   </button>
   <button class="filter-btn" data-filter="science">SCIENCE <span class="filter-count">1</span></button>
   <button class="filter-btn" data-filter="music">MUSIC <span class="filter-count">3</span></button>
   <button class="filter-btn" data-filter="art">ART <span class="filter-count">1</span></button>
-  <button class="filter-btn" data-filter="game">GAME <span class="filter-count">1</span></button>
 </nav>
 
-<!-- ALL GRID (flat 3×2) -->
+<!-- ALL GRID (flat ledger) -->
 <div class="all-grid-wrap hidden" id="allGrid"></div>
 
 <!-- ── CASES ── -->
@@ -696,26 +641,6 @@ footer{
         <div class="card-desc">Text-mode generative art system. Exploring the visual density of character space as creative medium.</div>
       </div>
       <a class="card-link" href="https://asciiera.13studio.co" target="_blank">OPEN</a>
-    </article>
-  </div>
-
-  <!-- GAME -->
-  <div class="section-label" data-section="game">GAME</div>
-  <div class="grid">
-    <article class="card" data-cat="game" data-url="https://aotr.13studio.co">
-      <div class="card-meta">
-        <span class="card-index">06</span>
-        <span class="card-cat">GAME</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">AOTR</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">aotr.13studio.co</span>
-        </div>
-        <div class="card-desc">Interactive experience at the intersection of narrative and systems design. Rules as world-building.</div>
-      </div>
-      <a class="card-link" href="https://aotr.13studio.co" target="_blank">OPEN</a>
     </article>
   </div>
 
