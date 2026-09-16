@@ -471,10 +471,6 @@ footer{
 @media(max-width:700px){.all-grid-wrap{margin:20px 0 0}}
 
 /* ── UTILS ── */
-/* ALL tab default: section labels hidden */
-.cases .section-label{ display:none }
-/* only shown when a category filter is active */
-.cases.show-labels .section-label{ display:flex }
 
 .no-scroll{overflow:hidden}
 
@@ -554,7 +550,7 @@ footer{
 
   </div>
   <div class="hero-meta">
-    <div><b>DOMAIN</b> &nbsp; <span class="hero-meta-val">SCIENCE · MUSIC · ART<br>MOTORSPORT</span></div>
+    <div><b>DOMAIN</b> &nbsp; <span class="hero-meta-val" id="heroDomains"></span></div>
     <div><b>APPROACH</b> &nbsp;
       PROTOTYPE → REFINE → RELEASE
 
@@ -568,141 +564,14 @@ footer{
 </section>
 
 <!-- ── FILTER BAR ── -->
-<nav class="filter-bar" id="filterBar">
-  <button class="filter-btn active" data-filter="all">
-    ALL
-    <span class="filter-count">7</span>
-  </button>
-  <button class="filter-btn" data-filter="science">SCIENCE <span class="filter-count">1</span></button>
-  <button class="filter-btn" data-filter="music">MUSIC <span class="filter-count">4</span></button>
-  <button class="filter-btn" data-filter="art">ART <span class="filter-count">1</span></button>
-  <button class="filter-btn" data-filter="culture">CULTURE <span class="filter-count">1</span></button>
-</nav>
+<nav class="filter-bar" id="filterBar" aria-label="Domains"></nav>
 
-<!-- ALL GRID (flat ledger) -->
+<!-- ── ALL VIEW (flat ledger, rendered from PROJECTS) ── -->
 <div class="all-grid-wrap hidden" id="allGrid"></div>
 
-<!-- ── CASES ── -->
-<main class="cases">
-
-  <!-- SCIENCE -->
-  <div class="section-label" data-section="science">SCIENCE</div>
-  <div class="grid">
-    <article class="card" data-cat="science" data-url="https://ocv.13studio.co">
-      <div class="card-meta">
-        <span class="card-cat">SCIENCE</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">OCV</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">ocv.13studio.co</span>
-        </div>
-        <div class="card-desc">OpenFOAM case viewer built for CFD research. Inspect mesh, boundary conditions, and solver setup through a structured, browser-native interface.</div>
-      </div>
-      <a class="card-link" href="https://ocv.13studio.co" target="_blank" rel="noopener">OPEN</a>
-    </article>
-  </div>
-
-  <!-- MUSIC -->
-  <div class="section-label" data-section="music">MUSIC</div>
-  <div class="grid">
-    <article class="card" data-cat="music" data-url="https://auxis.13studio.co">
-      <div class="card-meta">
-        <span class="card-cat">MUSIC</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">AUXIS</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">auxis.13studio.co</span>
-        </div>
-        <div class="card-desc">Modular audio processing interface. Routing, mixing, and signal manipulation at the component level.</div>
-      </div>
-      <a class="card-link" href="https://auxis.13studio.co" target="_blank" rel="noopener">OPEN</a>
-    </article>
-    <article class="card" data-cat="music" data-url="https://obsidian808.13studio.co">
-      <div class="card-meta">
-        <span class="card-cat">MUSIC</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">OBSIDIAN 808</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">obsidian808.13studio.co</span>
-        </div>
-        <div class="card-desc">Deep, percussive synthesis workstation. Low-end design with precise envelope control and layering.</div>
-      </div>
-      <a class="card-link" href="https://obsidian808.13studio.co" target="_blank" rel="noopener">OPEN</a>
-    </article>
-    <article class="card" data-cat="music" data-url="https://project.daw.13studio.co">
-      <div class="card-meta">
-        <span class="card-cat">MUSIC</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">PROJECT DAW</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">project.daw.13studio.co</span>
-        </div>
-        <div class="card-desc">Browser-native digital audio workstation. Full sequencer, synth engine, and mixer — no install required.</div>
-      </div>
-      <a class="card-link" href="https://project.daw.13studio.co" target="_blank" rel="noopener">OPEN</a>
-    </article>
-    <article class="card" data-cat="music" data-url="https://band.lite.13studio.co/">
-      <div class="card-meta">
-        <span class="card-cat">MUSIC</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">BAND-LITE</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">band.lite.13studio.co</span>
-        </div>
-        <div class="card-desc">Lightweight browser jam workstation. Type a chord progression, set the band, and play over it — no tracks, no timeline.</div>
-      </div>
-      <a class="card-link" href="https://band.lite.13studio.co/" target="_blank" rel="noopener">OPEN</a>
-    </article>
-  </div>
-
-  <!-- ART -->
-  <div class="section-label" data-section="art">ART</div>
-  <div class="grid">
-    <article class="card" data-cat="art" data-url="https://asciiera.13studio.co">
-      <div class="card-meta">
-        <span class="card-cat">ART</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">ASCII ERA</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">asciiera.13studio.co</span>
-        </div>
-        <div class="card-desc">Text-mode generative art system. Exploring the visual density of character space as creative medium.</div>
-      </div>
-      <a class="card-link" href="https://asciiera.13studio.co" target="_blank" rel="noopener">OPEN</a>
-    </article>
-  </div>
-
-  <!-- CULTURE -->
-  <div class="section-label" data-section="culture">CULTURE</div>
-  <div class="grid">
-    <article class="card" data-cat="culture" data-url="https://sake.13studio.co/">
-      <div class="card-meta">
-        <span class="card-cat">CULTURE</span>
-      </div>
-      <div class="card-main">
-        <div class="card-title-line">
-          <span class="card-title">THE BOOK OF SAKE</span>
-          <span class="card-leader"></span>
-          <span class="card-domain">sake.13studio.co</span>
-        </div>
-        <div class="card-desc">Trilingual reference on Japanese sake. History, brewing process, brands, terroir, categories, and standards in English, Japanese, and Traditional Chinese.</div>
-      </div>
-      <a class="card-link" href="https://sake.13studio.co/" target="_blank" rel="noopener">OPEN</a>
-    </article>
-  </div>
-
+<!-- ── CASES (category view, rendered from PROJECTS) ── -->
+<main class="cases" id="cases">
+  <noscript><div class="section-label">JAVASCRIPT REQUIRED</div></noscript>
 </main>
 
 <!-- ── FOOTER ── -->
@@ -718,6 +587,36 @@ footer{
 </footer>
 
 <script>
+/* ── CONTENT ─────────────────────────────────────────────
+   Single source for the hero DOMAIN line, the filter tabs,
+   the sections and every count. A domain is listed only
+   while it has at least one public project.
+   ─────────────────────────────────────────────────────── */
+const DOMAINS = [
+  {key:'science',    label:'SCIENCE'},
+  {key:'music',      label:'MUSIC'},
+  {key:'art',        label:'ART'},
+  {key:'culture',    label:'CULTURE'},
+  {key:'motorsport', label:'MOTORSPORT'}
+];
+
+const PROJECTS = [
+  {domain:'science', title:'OCV', url:'https://ocv.13studio.co',
+   desc:'OpenFOAM case viewer built for CFD research. Inspect mesh, boundary conditions, and solver setup through a structured, browser-native interface.'},
+  {domain:'music', title:'AUXIS', url:'https://auxis.13studio.co',
+   desc:'Modular audio processing interface. Routing, mixing, and signal manipulation at the component level.'},
+  {domain:'music', title:'OBSIDIAN 808', url:'https://obsidian808.13studio.co',
+   desc:'Deep, percussive synthesis workstation. Low-end design with precise envelope control and layering.'},
+  {domain:'music', title:'PROJECT DAW', url:'https://project.daw.13studio.co',
+   desc:'Browser-native digital audio workstation. Full sequencer, synth engine, and mixer — no install required.'},
+  {domain:'music', title:'BAND-LITE', url:'https://band.lite.13studio.co/',
+   desc:'Lightweight browser jam workstation. Type a chord progression, set the band, and play over it — no tracks, no timeline.'},
+  {domain:'art', title:'ASCII ERA', url:'https://asciiera.13studio.co',
+   desc:'Text-mode generative art system. Exploring the visual density of character space as creative medium.'},
+  {domain:'culture', title:'THE BOOK OF SAKE', url:'https://sake.13studio.co/',
+   desc:'Trilingual reference on Japanese sake. History, brewing process, brands, terroir, categories, and standards in English, Japanese, and Traditional Chinese.'}
+];
+
 /* ── STORAGE (guarded: throws when storage is blocked) ── */
 const store = {
   get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
@@ -792,77 +691,96 @@ drawerClose.addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
 document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeDrawer(); });
 
-/* ── CARD CLICK ── */
-function openCard(e){
-  if(e.target.closest('a')) return;
-  const url = e.currentTarget.dataset.url;
-  if(url) window.open(url, '_blank', 'noopener');
+/* ── DOMAINS & PROJECTS ── */
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text != null) n.textContent = text;
+  return n;
 }
+function hostOf(url){
+  try{ return new URL(url).host; }catch(e){ return url; }
+}
+
+PROJECTS.forEach(p=>{
+  if(!DOMAINS.some(d=>d.key===p.domain)) console.warn(`13STUDIO: "${p.title}" has unknown domain "${p.domain}"`);
+});
+
+// public domains, in DOMAINS order, each with its projects
+const LIVE = DOMAINS
+  .map(d=>({...d, projects: PROJECTS.filter(p=>p.domain===d.key)}))
+  .filter(d=>d.projects.length);
+
+function cardEl(p, label){
+  const card = el('article', 'card');
+  card.dataset.cat = p.domain;
+  card.dataset.url = p.url;
+  const meta = el('div', 'card-meta');
+  meta.append(el('span', 'card-cat', label));
+  const line = el('div', 'card-title-line');
+  line.append(el('span', 'card-title', p.title), el('span', 'card-leader'), el('span', 'card-domain', hostOf(p.url)));
+  const main = el('div', 'card-main');
+  main.append(line, el('div', 'card-desc', p.desc));
+  const link = el('a', 'card-link', 'OPEN');
+  link.href = p.url; link.target = '_blank'; link.rel = 'noopener';
+  card.append(meta, main, link);
+  return card;
+}
+
+document.getElementById('heroDomains').textContent = LIVE.map(d=>d.label).join('\u00a0· ');
 
 /* ── FILTER ── */
-function buildAllGrid(){
-  const wrap = document.getElementById('allGrid');
-  if(wrap.dataset.built) return;
-  wrap.dataset.built = '1';
-  // clone every card in DOM order into the flat ledger
-  document.querySelectorAll('.cases .card').forEach(card=>{
-    const clone = card.cloneNode(true);
-    clone.addEventListener('click', openCard);
-    wrap.appendChild(clone);
+const filterBar = document.getElementById('filterBar');
+const allGrid = document.getElementById('allGrid');
+const casesEl = document.getElementById('cases');
+
+function filterBtn(key, label, count){
+  const b = el('button', 'filter-btn', label + ' ');
+  b.type = 'button';
+  b.dataset.filter = key;
+  b.append(el('span', 'filter-count', String(count)));
+  return b;
+}
+filterBar.append(
+  filterBtn('all', 'ALL', LIVE.reduce((n,d)=>n + d.projects.length, 0)),
+  ...LIVE.map(d=>filterBtn(d.key, d.label, d.projects.length))
+);
+
+function setFilter(key){
+  const domain = LIVE.find(d=>d.key===key);
+  if(!domain) key = 'all';
+  filterBar.querySelectorAll('.filter-btn').forEach(b=>{
+    const on = b.dataset.filter === key;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', on);
   });
+  if(!domain){
+    allGrid.replaceChildren(...LIVE.flatMap(d=>d.projects.map(p=>cardEl(p, d.label))));
+    allGrid.classList.remove('hidden');
+    casesEl.style.display = 'none';
+  }else{
+    const grid = el('div', 'grid');
+    grid.append(...domain.projects.map(p=>cardEl(p, domain.label)));
+    casesEl.replaceChildren(el('div', 'section-label', domain.label), grid);
+    casesEl.style.display = '';
+    allGrid.classList.add('hidden');
+  }
 }
 
-function showAll(){
-  const wrap = document.getElementById('allGrid');
-  const casesEl = document.querySelector('.cases');
-  buildAllGrid();
-  wrap.classList.remove('hidden');
-  casesEl.style.display = 'none';
-}
-
-function showCategory(f){
-  const wrap = document.getElementById('allGrid');
-  const casesEl = document.querySelector('.cases');
-  wrap.classList.add('hidden');
-  casesEl.style.display = '';
-  casesEl.classList.add('show-labels');
-  document.querySelectorAll('.cases .card').forEach(card=>{
-    card.style.display = card.dataset.cat===f ? '' : 'none';
-  });
-  document.querySelectorAll('.section-label').forEach(label=>{
-    const sec = label.dataset.section;
-    const grid = label.nextElementSibling;
-    const show = f===sec;
-    label.style.display = show ? '' : 'none';
-    if(grid) grid.style.display = show ? '' : 'none';
-  });
-}
-
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    if(f==='all') showAll();
-    else showCategory(f);
-  });
+filterBar.addEventListener('click', e=>{
+  const b = e.target.closest('.filter-btn');
+  if(b) setFilter(b.dataset.filter);
 });
 
-/* filter counts from the cards */
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  const f = btn.dataset.filter;
-  const el = btn.querySelector('.filter-count');
-  if(el) el.textContent = document.querySelectorAll(f==='all' ? '.cases .card' : `.cases .card[data-cat="${f}"]`).length;
+/* ── CARD CLICK (delegated; the OPEN link handles itself) ── */
+document.addEventListener('click', e=>{
+  const card = e.target.closest('.card');
+  if(!card || e.target.closest('a')) return;
+  window.open(card.dataset.url, '_blank', 'noopener');
 });
-
-/* originals only — ALL-view clones are wired in buildAllGrid */
-document.querySelectorAll('.cases .card').forEach(card=>card.addEventListener('click', openCard));
-
-// init: show ALL on load
-showAll();
-document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
 
 /* ── BOOT ── */
+setFilter('all');
 applyPalette(currentPalette);
 </script>
 </body>
