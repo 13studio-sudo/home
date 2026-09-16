@@ -1,12 +1,16 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-palette="mono-dark">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>13STUDIO</title>
+<script>
+/* apply saved palette before first paint */
+try{var k=localStorage.getItem('13s-palette');if(k){document.documentElement.setAttribute('data-palette',k);document.documentElement.setAttribute('data-theme',k==='mono-light'?'light':'dark')}}catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Michroma&family=JetBrains+Mono:wght@300;400;500;700&family=IBM+Plex+Mono:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=IBM+Plex+Mono&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 /* ── THEME TOKENS ── */
 :root{
@@ -17,7 +21,6 @@
   --ink-ghost:#444;
   --line:#333;
   --line-soft:#2a2a2a;
-  --accent:#d4d4d4;
   --panel:rgba(255,255,255,.03);
   --panel-hi:rgba(255,255,255,.055);
   --hover:rgba(255,255,255,.07);
@@ -26,10 +29,9 @@
   --font-body:'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
   --font-tech:'Share Tech Mono', monospace;
 
-  --radius:0;
   --transition:.22s ease;
 }
-[data-theme="light"]{
+:root[data-palette="mono-light"]{
   --bg:#f0f0f0;
   --bg2:#e8e8e8;
   --ink:#1a1a1a;
@@ -37,14 +39,50 @@
   --ink-ghost:#aaa;
   --line:#ccc;
   --line-soft:#ddd;
-  --accent:#1a1a1a;
   --panel:rgba(0,0,0,.03);
   --panel-hi:rgba(0,0,0,.055);
   --hover:rgba(0,0,0,.07);
 }
+:root[data-palette="amber"]{
+  --bg:#110d04;
+  --bg2:#0a0806;
+  --ink:#ff7a18;
+  --ink-dim:#c8650f;
+  --ink-ghost:#5a3005;
+  --line:#3a2800;
+  --line-soft:#251900;
+  --panel:rgba(255,122,24,.04);
+  --panel-hi:rgba(255,122,24,.08);
+  --hover:rgba(255,122,24,.12);
+}
+:root[data-palette="green"]{
+  --bg:#050f05;
+  --bg2:#030a03;
+  --ink:#39ff14;
+  --ink-dim:#22cc0a;
+  --ink-ghost:#0a4005;
+  --line:#0a2a0a;
+  --line-soft:#071807;
+  --panel:rgba(57,255,20,.04);
+  --panel-hi:rgba(57,255,20,.08);
+  --hover:rgba(57,255,20,.12);
+}
+:root[data-palette="blue"]{
+  --bg:#05080f;
+  --bg2:#030508;
+  --ink:#44aaff;
+  --ink-dim:#2288cc;
+  --ink-ghost:#0a1a35;
+  --line:#0a1530;
+  --line-soft:#070e20;
+  --panel:rgba(68,170,255,.04);
+  --panel-hi:rgba(68,170,255,.08);
+  --hover:rgba(68,170,255,.12);
+}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow-x:hidden}
+html,body{min-height:100%}
+body{overflow-x:hidden} /* propagates to the viewport; body is not a scroll container */
 
 body{
   font-family:var(--font-body);
@@ -150,11 +188,12 @@ body::after{
   width:300px;z-index:201;
   background:var(--bg2);
   border-left:1px solid var(--line);
-  transition:right .3s ease;
+  transition:right .3s ease, visibility 0s linear .3s;
+  visibility:hidden;
   display:flex;flex-direction:column;
   font-family:var(--font-tech);
 }
-.drawer.open{right:0}
+.drawer.open{right:0;visibility:visible;transition:right .3s ease}
 
 .drawer-head{
   display:flex;align-items:center;justify-content:space-between;
@@ -187,17 +226,19 @@ body::after{
 /* theme swatches */
 .swatch-row{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line-soft)}
 .swatch{
-  width:28px;height:28px;cursor:pointer;
+  width:28px;height:28px;cursor:pointer;padding:0;
   border:1px solid transparent;
   position:relative;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-tech);font-size:7.7px;
   transition:border-color .15s;
 }
-.swatch.active,.swatch:hover{border-color:var(--ink)}
 .swatch[data-palette="mono-dark"]{background:#1e1e1e}
 .swatch[data-palette="mono-light"]{background:#f0f0f0}
-.swatch[data-palette="amber"]{background:#110d04}
-.swatch[data-palette="green"]{background:#050f05}
-.swatch[data-palette="blue"]{background:#05080f}
+.swatch[data-palette="amber"]{background:#110d04;border-color:#3a2800;color:#ff7a18}
+.swatch[data-palette="green"]{background:#050f05;border-color:#0a2a0a;color:#39ff14}
+.swatch[data-palette="blue"]{background:#05080f;border-color:#0a1530;color:#44aaff}
+.swatch.active,.swatch:hover,.swatch:focus-visible{border-color:var(--ink)}
 
 .swatch-label{
   padding:0 20px 14px;
@@ -255,6 +296,7 @@ body::after{
 }
 @media(max-width:700px){.hero-meta{text-align:left}}
 .hero-meta b{color:var(--ink-dim)}
+.hero-meta-val{display:inline-block;vertical-align:top}
 
 /* ── FILTER BAR ── */
 .filter-bar{
@@ -295,6 +337,7 @@ body::after{
   color:var(--ink-ghost);
 }
 .section-label::after{content:"";flex:1;height:1px;background:var(--line)}
+@media(max-width:700px){.section-label{padding-left:20px;padding-right:20px}}
 
 .grid{
   display:grid;
@@ -332,13 +375,6 @@ body::after{
 .card-meta{
   display:flex;flex-direction:column;gap:8px;
 }
-.card-index{
-  font-family:var(--font-tech);font-size:20px;letter-spacing:.15em;
-  color:var(--ink-ghost);
-  line-height:1;
-  transition:color var(--transition);
-}
-.card:hover .card-index{color:var(--ink-dim)}
 .card-cat{
   font-family:var(--font-tech);font-size:8.8px;letter-spacing:.35em;text-transform:uppercase;
   color:var(--ink-ghost);
@@ -351,7 +387,8 @@ body::after{
   min-width:0;
 }
 .card-title-line{
-  display:flex;align-items:baseline;gap:14px;
+  display:flex;align-items:baseline;gap:6px 14px;
+  flex-wrap:wrap;
   min-width:0;
 }
 .card-title{
@@ -378,6 +415,7 @@ body::after{
   transition:color var(--transition);
 }
 .card:hover .card-domain{color:var(--ink-dim)}
+@media(min-width:701px){.card-domain{margin-left:auto}}
 
 .card-desc{
   font-size:11px;letter-spacing:.03em;color:var(--ink-dim);line-height:1.7;
@@ -438,7 +476,6 @@ footer{
 /* only shown when a category filter is active */
 .cases.show-labels .section-label{ display:flex }
 
-[data-hide]{display:none!important}
 .no-scroll{overflow:hidden}
 
 </style>
@@ -449,37 +486,31 @@ footer{
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <!-- ── DRAWER ── -->
-<aside class="drawer" id="drawer">
+<aside class="drawer" id="drawer" aria-label="System menu">
   <div class="drawer-head">
     <span>System</span>
-    <button class="drawer-close" id="drawerClose">×</button>
+    <button type="button" class="drawer-close" id="drawerClose" aria-label="Close menu">×</button>
   </div>
 
   <div class="drawer-section">Interface</div>
   <div class="drawer-row">
-    <span style="letter-spacing:.15em;font-size:10px;color:var(--ink-dim)">DISPLAY MODE</span>
-    <button class="icon-btn" id="themeToggleDrawer" style="width:auto;padding:0 10px;letter-spacing:.15em;font-size:9px">DARK</button>
+    <span style="letter-spacing:.15em;font-size:11px;color:var(--ink-dim)">DISPLAY MODE</span>
+    <button class="icon-btn" id="themeToggleDrawer" style="width:auto;padding:0 10px;letter-spacing:.15em;font-size:9.9px">DARK</button>
   </div>
 
   <div class="drawer-section" style="margin-top:8px">Colour Palette</div>
   <div class="swatch-row">
-    <div class="swatch active" data-palette="mono-dark" title="Mono Dark" id="sw-mono-dark"></div>
-    <div class="swatch" data-palette="mono-light" title="Mono Light" id="sw-mono-light"></div>
-    <div class="swatch" data-palette="amber" title="Amber" id="sw-amber" style="background:#110d04;border:1px solid #3a2800;position:relative">
-      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:7px;color:#ff7a18;font-family:var(--font-tech)">A</span>
-    </div>
-    <div class="swatch" data-palette="green" title="Phosphor" id="sw-green" style="background:#050f05;border:1px solid #0a2a0a;position:relative">
-      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:7px;color:#39ff14;font-family:var(--font-tech)">P</span>
-    </div>
-    <div class="swatch" data-palette="blue" title="Cold" id="sw-blue" style="background:#05080f;border:1px solid #0a1530;position:relative">
-      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:7px;color:#44aaff;font-family:var(--font-tech)">C</span>
-    </div>
+    <button type="button" class="swatch active" data-palette="mono-dark" title="Mono Dark" aria-label="Mono Dark" aria-pressed="true" id="sw-mono-dark"></button>
+    <button type="button" class="swatch" data-palette="mono-light" title="Mono Light" aria-label="Mono Light" aria-pressed="false" id="sw-mono-light"></button>
+    <button type="button" class="swatch" data-palette="amber" title="Amber" aria-label="Amber" aria-pressed="false" id="sw-amber">A</button>
+    <button type="button" class="swatch" data-palette="green" title="Phosphor" aria-label="Phosphor" aria-pressed="false" id="sw-green">P</button>
+    <button type="button" class="swatch" data-palette="blue" title="Cold" aria-label="Cold" aria-pressed="false" id="sw-blue">C</button>
   </div>
   <div class="swatch-label" id="swatchLabel">MONO DARK</div>
 
   <div class="drawer-section" style="margin-top:8px">About</div>
   <div class="drawer-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
-    <span style="color:var(--ink-dim);font-size:9px;letter-spacing:.15em;line-height:1.8">
+    <span style="color:var(--ink-dim);font-size:9.9px;letter-spacing:.15em;line-height:1.8">
       13STUDIO — independent creative lab.<br>Exploring the edge of applied technology.
 
     </span>
@@ -494,8 +525,8 @@ footer{
 <!-- ── TOP BAR ── -->
 <header class="topbar">
   <div class="topbar-left">
-    <a href="https://13studio.co" target="_blank" class="brand" style="text-decoration:none">13STUDIO <sup>4.0.0</sup></a>
-    <span style="color:var(--ink-ghost);font-size:9px;letter-spacing:.18em;text-transform:uppercase">
+    <a href="https://13studio.co" target="_blank" rel="noopener" class="brand" style="text-decoration:none">13STUDIO <sup>4.1.0</sup></a>
+    <span style="color:var(--ink-ghost);font-size:9.9px;letter-spacing:.18em;text-transform:uppercase">
       2026
     </span>
   </div>
@@ -503,7 +534,7 @@ footer{
     <button class="icon-btn" id="themeToggle" title="Toggle theme">
       <span id="themeIcon">☀</span>
     </button>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="drawer">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -523,8 +554,7 @@ footer{
 
   </div>
   <div class="hero-meta">
-    <div><b>DOMAIN</b> &nbsp; SCIENCE · MUSIC · ART</div>
-    <div style="padding-left:5.2em"> MOTORSPORT</div>
+    <div><b>DOMAIN</b> &nbsp; <span class="hero-meta-val">SCIENCE · MUSIC · ART<br>MOTORSPORT</span></div>
     <div><b>APPROACH</b> &nbsp;
       PROTOTYPE → REFINE → RELEASE
 
@@ -541,11 +571,12 @@ footer{
 <nav class="filter-bar" id="filterBar">
   <button class="filter-btn active" data-filter="all">
     ALL
-    <span class="filter-count">5</span>
+    <span class="filter-count">7</span>
   </button>
   <button class="filter-btn" data-filter="science">SCIENCE <span class="filter-count">1</span></button>
-  <button class="filter-btn" data-filter="music">MUSIC <span class="filter-count">3</span></button>
+  <button class="filter-btn" data-filter="music">MUSIC <span class="filter-count">4</span></button>
   <button class="filter-btn" data-filter="art">ART <span class="filter-count">1</span></button>
+  <button class="filter-btn" data-filter="culture">CULTURE <span class="filter-count">1</span></button>
 </nav>
 
 <!-- ALL GRID (flat ledger) -->
@@ -559,7 +590,6 @@ footer{
   <div class="grid">
     <article class="card" data-cat="science" data-url="https://ocv.13studio.co">
       <div class="card-meta">
-        <span class="card-index">01</span>
         <span class="card-cat">SCIENCE</span>
       </div>
       <div class="card-main">
@@ -570,7 +600,7 @@ footer{
         </div>
         <div class="card-desc">OpenFOAM case viewer built for CFD research. Inspect mesh, boundary conditions, and solver setup through a structured, browser-native interface.</div>
       </div>
-      <a class="card-link" href="https://ocv.13studio.co" target="_blank">OPEN</a>
+      <a class="card-link" href="https://ocv.13studio.co" target="_blank" rel="noopener">OPEN</a>
     </article>
   </div>
 
@@ -579,7 +609,6 @@ footer{
   <div class="grid">
     <article class="card" data-cat="music" data-url="https://auxis.13studio.co">
       <div class="card-meta">
-        <span class="card-index">02</span>
         <span class="card-cat">MUSIC</span>
       </div>
       <div class="card-main">
@@ -590,11 +619,10 @@ footer{
         </div>
         <div class="card-desc">Modular audio processing interface. Routing, mixing, and signal manipulation at the component level.</div>
       </div>
-      <a class="card-link" href="https://auxis.13studio.co" target="_blank">OPEN</a>
+      <a class="card-link" href="https://auxis.13studio.co" target="_blank" rel="noopener">OPEN</a>
     </article>
     <article class="card" data-cat="music" data-url="https://obsidian808.13studio.co">
       <div class="card-meta">
-        <span class="card-index">03</span>
         <span class="card-cat">MUSIC</span>
       </div>
       <div class="card-main">
@@ -605,11 +633,10 @@ footer{
         </div>
         <div class="card-desc">Deep, percussive synthesis workstation. Low-end design with precise envelope control and layering.</div>
       </div>
-      <a class="card-link" href="https://obsidian808.13studio.co" target="_blank">OPEN</a>
+      <a class="card-link" href="https://obsidian808.13studio.co" target="_blank" rel="noopener">OPEN</a>
     </article>
     <article class="card" data-cat="music" data-url="https://project.daw.13studio.co">
       <div class="card-meta">
-        <span class="card-index">04</span>
         <span class="card-cat">MUSIC</span>
       </div>
       <div class="card-main">
@@ -620,7 +647,21 @@ footer{
         </div>
         <div class="card-desc">Browser-native digital audio workstation. Full sequencer, synth engine, and mixer — no install required.</div>
       </div>
-      <a class="card-link" href="https://project.daw.13studio.co" target="_blank">OPEN</a>
+      <a class="card-link" href="https://project.daw.13studio.co" target="_blank" rel="noopener">OPEN</a>
+    </article>
+    <article class="card" data-cat="music" data-url="https://band.lite.13studio.co/">
+      <div class="card-meta">
+        <span class="card-cat">MUSIC</span>
+      </div>
+      <div class="card-main">
+        <div class="card-title-line">
+          <span class="card-title">BAND-LITE</span>
+          <span class="card-leader"></span>
+          <span class="card-domain">band.lite.13studio.co</span>
+        </div>
+        <div class="card-desc">Lightweight browser jam workstation. Type a chord progression, set the band, and play over it — no tracks, no timeline.</div>
+      </div>
+      <a class="card-link" href="https://band.lite.13studio.co/" target="_blank" rel="noopener">OPEN</a>
     </article>
   </div>
 
@@ -629,7 +670,6 @@ footer{
   <div class="grid">
     <article class="card" data-cat="art" data-url="https://asciiera.13studio.co">
       <div class="card-meta">
-        <span class="card-index">05</span>
         <span class="card-cat">ART</span>
       </div>
       <div class="card-main">
@@ -640,7 +680,26 @@ footer{
         </div>
         <div class="card-desc">Text-mode generative art system. Exploring the visual density of character space as creative medium.</div>
       </div>
-      <a class="card-link" href="https://asciiera.13studio.co" target="_blank">OPEN</a>
+      <a class="card-link" href="https://asciiera.13studio.co" target="_blank" rel="noopener">OPEN</a>
+    </article>
+  </div>
+
+  <!-- CULTURE -->
+  <div class="section-label" data-section="culture">CULTURE</div>
+  <div class="grid">
+    <article class="card" data-cat="culture" data-url="https://sake.13studio.co/">
+      <div class="card-meta">
+        <span class="card-cat">CULTURE</span>
+      </div>
+      <div class="card-main">
+        <div class="card-title-line">
+          <span class="card-title">THE BOOK OF SAKE</span>
+          <span class="card-leader"></span>
+          <span class="card-domain">sake.13studio.co</span>
+        </div>
+        <div class="card-desc">Trilingual reference on Japanese sake. History, brewing process, brands, terroir, categories, and standards in English, Japanese, and Traditional Chinese.</div>
+      </div>
+      <a class="card-link" href="https://sake.13studio.co/" target="_blank" rel="noopener">OPEN</a>
     </article>
   </div>
 
@@ -650,7 +709,7 @@ footer{
 <footer>
   <div style="display:flex;align-items:center;gap:16px">
     <span><span class="pulse" style="display:inline-block;margin-right:8px;vertical-align:middle"></span>13STUDIO © 2026</span>
-    <a href="https://13studio.co" target="_blank" style="color:var(--ink-ghost);text-decoration:none;font-family:var(--font-tech);font-size:8px;letter-spacing:.22em;border-bottom:1px solid var(--ink-ghost);padding-bottom:1px;transition:color .22s ease,border-color .22s ease" onmouseover="this.style.color='var(--ink)';this.style.borderColor='var(--ink)'" onmouseout="this.style.color='var(--ink-ghost)';this.style.borderColor='var(--ink-ghost)'">13STUDIO.CO →</a>
+    <a href="https://13studio.co" target="_blank" rel="noopener" style="color:var(--ink-ghost);text-decoration:none;font-family:var(--font-tech);font-size:8.8px;letter-spacing:.22em;border-bottom:1px solid var(--ink-ghost);padding-bottom:1px;transition:color .22s ease,border-color .22s ease" onmouseover="this.style.color='var(--ink)';this.style.borderColor='var(--ink)'" onmouseout="this.style.color='var(--ink-ghost)';this.style.borderColor='var(--ink-ghost)'">13STUDIO.CO →</a>
   </div>
   <div style="display:flex;gap:16px;align-items:center">
     WHERE WORK MEETS OBSESSION
@@ -659,75 +718,51 @@ footer{
 </footer>
 
 <script>
-/* ── PALETTE DEFINITIONS ── */
-const PALETTES = {
-  'mono-dark':{
-    '--bg':'#1e1e1e','--bg2':'#161616',
-    '--ink':'#d4d4d4','--ink-dim':'#888','--ink-ghost':'#444',
-    '--line':'#333','--line-soft':'#2a2a2a',
-    '--accent':'#d4d4d4','--panel':'rgba(255,255,255,.03)',
-    '--panel-hi':'rgba(255,255,255,.055)','--hover':'rgba(255,255,255,.07)',
-    theme:'dark', label:'MONO DARK'
-  },
-  'mono-light':{
-    '--bg':'#f0f0f0','--bg2':'#e8e8e8',
-    '--ink':'#1a1a1a','--ink-dim':'#555','--ink-ghost':'#aaa',
-    '--line':'#ccc','--line-soft':'#ddd',
-    '--accent':'#1a1a1a','--panel':'rgba(0,0,0,.03)',
-    '--panel-hi':'rgba(0,0,0,.055)','--hover':'rgba(0,0,0,.07)',
-    theme:'light', label:'MONO LIGHT'
-  },
-  'amber':{
-    '--bg':'#110d04','--bg2':'#0a0806',
-    '--ink':'#ff7a18','--ink-dim':'#c8650f','--ink-ghost':'#5a3005',
-    '--line':'#3a2800','--line-soft':'#251900',
-    '--accent':'#ff7a18','--panel':'rgba(255,122,24,.04)',
-    '--panel-hi':'rgba(255,122,24,.08)','--hover':'rgba(255,122,24,.12)',
-    theme:'dark', label:'AMBER'
-  },
-  'green':{
-    '--bg':'#050f05','--bg2':'#030a03',
-    '--ink':'#39ff14','--ink-dim':'#22cc0a','--ink-ghost':'#0a4005',
-    '--line':'#0a2a0a','--line-soft':'#071807',
-    '--accent':'#39ff14','--panel':'rgba(57,255,20,.04)',
-    '--panel-hi':'rgba(57,255,20,.08)','--hover':'rgba(57,255,20,.12)',
-    theme:'dark', label:'PHOSPHOR'
-  },
-  'blue':{
-    '--bg':'#05080f','--bg2':'#030508',
-    '--ink':'#44aaff','--ink-dim':'#2288cc','--ink-ghost':'#0a1a35',
-    '--line':'#0a1530','--line-soft':'#070e20',
-    '--accent':'#44aaff','--panel':'rgba(68,170,255,.04)',
-    '--panel-hi':'rgba(68,170,255,.08)','--hover':'rgba(68,170,255,.12)',
-    theme:'dark', label:'COLD'
-  }
+/* ── STORAGE (guarded: throws when storage is blocked) ── */
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 };
 
-let currentPalette = localStorage.getItem('13s-palette') || 'mono-dark';
+/* ── PALETTES (colour values live in CSS: :root[data-palette="…"]) ── */
+const PALETTES = {
+  'mono-dark': {theme:'dark',  label:'MONO DARK'},
+  'mono-light':{theme:'light', label:'MONO LIGHT'},
+  'amber':     {theme:'dark',  label:'AMBER'},
+  'green':     {theme:'dark',  label:'PHOSPHOR'},
+  'blue':      {theme:'dark',  label:'COLD'}
+};
+
+const savedPalette = store.get('13s-palette');
+const savedDark = store.get('13s-last-dark');
+let currentPalette = PALETTES[savedPalette] ? savedPalette : 'mono-dark';
+let lastDark = PALETTES[savedDark]?.theme === 'dark' ? savedDark : 'mono-dark';
 
 function applyPalette(key){
   const p = PALETTES[key];
   if(!p) return;
   currentPalette = key;
+  if(p.theme === 'dark'){ lastDark = key; store.set('13s-last-dark', key); }
   const r = document.documentElement;
-  Object.entries(p).forEach(([k,v])=>{ if(k.startsWith('--')) r.style.setProperty(k,v); });
+  r.setAttribute('data-palette', key);
   r.setAttribute('data-theme', p.theme);
   document.getElementById('themeIcon').textContent = p.theme==='dark' ? '☀' : '☾';
   document.getElementById('themeToggleDrawer').textContent = p.theme==='dark' ? 'DARK' : 'LIGHT';
-  document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('active', s.dataset.palette===key));
+  document.querySelectorAll('.swatch').forEach(s=>{
+    const on = s.dataset.palette === key;
+    s.classList.toggle('active', on);
+    s.setAttribute('aria-pressed', on);
+  });
   document.getElementById('swatchLabel').textContent = p.label;
-  localStorage.setItem('13s-palette', key);
+  store.set('13s-palette', key);
 }
 
-/* ── THEME TOGGLE (topbar) ── */
-document.getElementById('themeToggle').addEventListener('click',()=>{
-  const isDark = PALETTES[currentPalette]?.theme === 'dark';
-  applyPalette(isDark ? 'mono-light' : 'mono-dark');
-});
-document.getElementById('themeToggleDrawer').addEventListener('click',()=>{
-  const isDark = PALETTES[currentPalette]?.theme === 'dark';
-  applyPalette(isDark ? 'mono-light' : 'mono-dark');
-});
+/* ── THEME TOGGLE (topbar + drawer): light ↔ last dark palette ── */
+function toggleTheme(){
+  applyPalette(PALETTES[currentPalette].theme === 'dark' ? 'mono-light' : lastDark);
+}
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+document.getElementById('themeToggleDrawer').addEventListener('click', toggleTheme);
 
 /* ── SWATCHES ── */
 document.querySelectorAll('.swatch').forEach(s=>{
@@ -737,28 +772,42 @@ document.querySelectorAll('.swatch').forEach(s=>{
 /* ── DRAWER ── */
 const drawer = document.getElementById('drawer');
 const overlay = document.getElementById('drawerOverlay');
+const hamburger = document.getElementById('hamburger');
+const drawerClose = document.getElementById('drawerClose');
 
-function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); document.body.classList.add('no-scroll'); }
-function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.classList.remove('no-scroll'); }
+function openDrawer(){
+  drawer.classList.add('open'); overlay.classList.add('open'); document.body.classList.add('no-scroll');
+  hamburger.setAttribute('aria-expanded', 'true');
+  drawerClose.focus();
+}
+function closeDrawer(){
+  if(!drawer.classList.contains('open')) return;
+  drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.classList.remove('no-scroll');
+  hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.focus();
+}
 
-document.getElementById('hamburger').addEventListener('click', openDrawer);
-document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+hamburger.addEventListener('click', openDrawer);
+drawerClose.addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeDrawer(); });
+
+/* ── CARD CLICK ── */
+function openCard(e){
+  if(e.target.closest('a')) return;
+  const url = e.currentTarget.dataset.url;
+  if(url) window.open(url, '_blank', 'noopener');
+}
 
 /* ── FILTER ── */
 function buildAllGrid(){
   const wrap = document.getElementById('allGrid');
   if(wrap.dataset.built) return;
   wrap.dataset.built = '1';
-  // collect all 6 cards in DOM order and clone into flat grid
+  // clone every card in DOM order into the flat ledger
   document.querySelectorAll('.cases .card').forEach(card=>{
     const clone = card.cloneNode(true);
-    // re-wire click
-    clone.addEventListener('click', e=>{
-      if(e.target.closest('a')) return;
-      const url = clone.dataset.url;
-      if(url) window.open(url,'_blank');
-    });
+    clone.addEventListener('click', openCard);
     wrap.appendChild(clone);
   });
 }
@@ -776,6 +825,7 @@ function showCategory(f){
   const casesEl = document.querySelector('.cases');
   wrap.classList.add('hidden');
   casesEl.style.display = '';
+  casesEl.classList.add('show-labels');
   document.querySelectorAll('.cases .card').forEach(card=>{
     card.style.display = card.dataset.cat===f ? '' : 'none';
   });
@@ -798,18 +848,19 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   });
 });
 
+/* filter counts from the cards */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  const f = btn.dataset.filter;
+  const el = btn.querySelector('.filter-count');
+  if(el) el.textContent = document.querySelectorAll(f==='all' ? '.cases .card' : `.cases .card[data-cat="${f}"]`).length;
+});
+
+/* originals only — ALL-view clones are wired in buildAllGrid */
+document.querySelectorAll('.cases .card').forEach(card=>card.addEventListener('click', openCard));
+
 // init: show ALL on load
 showAll();
 document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-
-/* ── CARD CLICK ── */
-document.querySelectorAll('.card').forEach(card=>{
-  card.addEventListener('click', e=>{
-    if(e.target.closest('a')) return;
-    const url = card.dataset.url;
-    if(url) window.open(url,'_blank');
-  });
-});
 
 /* ── BOOT ── */
 applyPalette(currentPalette);
