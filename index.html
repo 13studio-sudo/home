@@ -297,56 +297,6 @@ body::after{
 }
 @media(max-width:700px){.hero-meta{text-align:left}}
 .hero-meta b{color:var(--ink-dim)}
-.hero-meta-val{display:inline-block;vertical-align:top}
-
-/* ── FILTER BAR ── */
-.filter-bar{
-  display:flex;align-items:center;gap:0;
-  border-bottom:1px solid var(--line);
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-.filter-bar::-webkit-scrollbar{display:none}
-
-.filter-btn{
-  flex-shrink:0;
-  padding:13px 20px;
-  font-family:var(--font-tech);font-size:9.9px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--ink-ghost);background:transparent;border:none;cursor:pointer;
-  border-right:1px solid var(--line);
-  border-bottom:2px solid transparent;
-  transition:color var(--transition),background var(--transition),border-color var(--transition);
-}
-.filter-btn:hover{color:var(--ink-dim);background:var(--panel)}
-.filter-btn.active{color:var(--ink);border-bottom-color:var(--ink)}
-.filter-count{
-  font-size:8.8px;margin-left:6px;
-  color:var(--ink-ghost);
-  vertical-align:middle;
-}
-
-/* ── CASES GRID ── */
-.cases{
-  padding:0 24px 80px;
-}
-@media(max-width:700px){.cases{padding:0 0 60px}}
-
-.section-label{
-  display:flex;align-items:center;gap:12px;
-  padding:28px 0 16px;
-  font-family:var(--font-tech);font-size:8.8px;letter-spacing:.4em;text-transform:uppercase;
-  color:var(--ink-ghost);
-}
-.section-label::after{content:"";flex:1;height:1px;background:var(--line)}
-@media(max-width:700px){.section-label{padding-left:20px;padding-right:20px}}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1px;
-  border:1px solid var(--line);
-  background:var(--line);
-}
 
 /* ── CASE ROW (ledger index) ── */
 .card{
@@ -355,7 +305,7 @@ body::after{
   overflow:hidden;
   cursor:pointer;
   display:grid;
-  grid-template-columns:150px 1fr auto;
+  grid-template-columns:1fr auto;
   align-items:center;
   gap:28px;
   padding:24px 28px;
@@ -372,16 +322,6 @@ body::after{
   transition:transform .22s ease;
 }
 .card:hover::before{transform:scaleY(1)}
-
-.card-meta{
-  display:flex;flex-direction:column;gap:8px;
-}
-.card-cat{
-  font-family:var(--font-tech);font-size:8.8px;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--ink-ghost);
-  display:flex;align-items:center;gap:8px;
-}
-.card-cat::before{content:"";display:block;width:10px;height:1px;background:var(--ink-ghost)}
 
 .card-main{
   display:flex;flex-direction:column;gap:9px;
@@ -442,7 +382,6 @@ body::after{
     gap:14px;
     padding:20px;
   }
-  .card-meta{flex-direction:row;align-items:baseline;justify-content:space-between}
   .card-title{white-space:normal}
   .card-title-line{flex-wrap:wrap;gap:6px 14px}
   .card-leader{display:none}
@@ -459,7 +398,14 @@ footer{
   color:var(--ink-ghost);
 }
 
-/* ALL view: single flat ledger — one continuous index */
+/* ── LEDGER (one continuous index) ── */
+/* group break: absorbs the 1px grid gaps so it reads as one line */
+.ledger-rule{
+  height:24px;margin:-1px 0;
+  background:var(--bg);
+  display:flex;align-items:center;
+}
+.ledger-rule::after{content:"";flex:1;height:1px;background:var(--ink-dim)}
 .all-grid-wrap{
   display:grid;
   grid-template-columns:1fr;
@@ -468,7 +414,7 @@ footer{
   border:1px solid var(--line);
   margin:28px 24px 0;
 }
-.all-grid-wrap.hidden{ display:none }
+.all-grid-wrap:empty{display:none}
 @media(max-width:700px){.all-grid-wrap{margin:20px 0 0}}
 
 /* ── UTILS ── */
@@ -508,8 +454,7 @@ footer{
   <div class="drawer-section" style="margin-top:8px">About</div>
   <div class="drawer-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
     <span style="color:var(--ink-dim);font-size:9.9px;letter-spacing:.15em;line-height:1.8">
-      13STUDIO — independent creative lab.<br>Exploring the edge of applied technology.
-
+      Browser-native tools, built one file at a time.
     </span>
   </div>
 
@@ -522,7 +467,7 @@ footer{
 <!-- ── TOP BAR ── -->
 <header class="topbar">
   <div class="topbar-left">
-    <a href="https://13studio.co" target="_blank" rel="noopener" class="brand" style="text-decoration:none">13STUDIO <sup>4.1.0</sup></a>
+    <a href="./" class="brand" style="text-decoration:none">13STUDIO <sup>4.1.0</sup></a>
     <span style="color:var(--ink-ghost);font-size:9.9px;letter-spacing:.18em;text-transform:uppercase">
       2026
     </span>
@@ -551,11 +496,6 @@ footer{
 
   </div>
   <div class="hero-meta">
-    <div><b>DOMAIN</b> &nbsp; <span class="hero-meta-val" id="heroDomains"></span></div>
-    <div><b>APPROACH</b> &nbsp;
-      PROTOTYPE → REFINE → RELEASE
-
-    </div>
     <div><b>BASED IN</b> &nbsp; TAIWAN</div>
     <div style="margin-top:12px;color:var(--ink-ghost)">
       <div class="pulse" style="display:inline-block;margin-right:8px;vertical-align:middle"></div>
@@ -564,16 +504,9 @@ footer{
   </div>
 </section>
 
-<!-- ── FILTER BAR ── -->
-<nav class="filter-bar" id="filterBar" aria-label="Domains"></nav>
-
-<!-- ── ALL VIEW (flat ledger, rendered from PROJECTS) ── -->
-<div class="all-grid-wrap hidden" id="allGrid"></div>
-
-<!-- ── CASES (category view, rendered from PROJECTS) ── -->
-<main class="cases" id="cases">
-  <noscript><div class="section-label">JAVASCRIPT REQUIRED</div></noscript>
-</main>
+<!-- ── LEDGER (rendered from PROJECTS) ── -->
+<main class="all-grid-wrap" id="ledger"></main>
+<noscript><p style="padding:28px 24px;font-family:var(--font-tech);font-size:9.9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-dim)">JavaScript required</p></noscript>
 
 <!-- ── FOOTER ── -->
 <footer>
@@ -589,33 +522,28 @@ footer{
 
 <script>
 /* ── CONTENT ─────────────────────────────────────────────
-   Single source for the hero DOMAIN line, the filter tabs,
-   the sections and every count. A domain is listed only
-   while it has at least one public project.
+   Single source for the ledger. Add a project = one object,
+   in the order it should appear. '---' draws a group break
+   (tools above, studies below).
    ─────────────────────────────────────────────────────── */
-const DOMAINS = [
-  {key:'science',    label:'SCIENCE'},
-  {key:'music',      label:'MUSIC'},
-  {key:'art',        label:'ART'},
-  {key:'culture',    label:'CULTURE'},
-  {key:'motorsport', label:'MOTORSPORT'}
-];
-
 const PROJECTS = [
-  {domain:'science', title:'OCV', url:'https://ocv.13studio.co',
+  {title:'OCV', url:'https://ocv.13studio.co',
    desc:'OpenFOAM case viewer built for CFD research. Inspect mesh, boundary conditions, and solver setup through a structured, browser-native interface.'},
-  {domain:'music', title:'AUXIS', url:'https://auxis.13studio.co',
+  {title:'AUXIS', url:'https://auxis.13studio.co',
    desc:'Modular audio processing interface. Routing, mixing, and signal manipulation at the component level.'},
-  {domain:'music', title:'OBSIDIAN 808', url:'https://obsidian808.13studio.co',
+  {title:'OBSIDIAN 808', url:'https://obsidian808.13studio.co',
    desc:'Deep, percussive synthesis workstation. Low-end design with precise envelope control and layering.'},
-  {domain:'music', title:'PROJECT DAW', url:'https://project.daw.13studio.co',
+  {title:'PROJECT DAW', url:'https://project.daw.13studio.co',
    desc:'Browser-native digital audio workstation. Full sequencer, synth engine, and mixer — no install required.'},
-  {domain:'music', title:'BAND-LITE', url:'https://band.lite.13studio.co/',
+  {title:'BAND-LITE', url:'https://band.lite.13studio.co/',
    desc:'Lightweight browser jam workstation. Type a chord progression, set the band, and play over it — no tracks, no timeline.'},
-  {domain:'art', title:'ASCII ERA', url:'https://asciiera.13studio.co',
+  {title:'ASCII ERA', url:'https://asciiera.13studio.co',
    desc:'Text-mode generative art system. Exploring the visual density of character space as creative medium.'},
-  {domain:'culture', title:'THE BOOK OF SAKE', url:'https://sake.13studio.co/',
-   desc:'Trilingual reference on Japanese sake. History, brewing process, brands, terroir, categories, and standards in English, Japanese, and Traditional Chinese.'}
+  '---',
+  {title:'THE BOOK OF SAKE', url:'https://sake.13studio.co/',
+   desc:'Trilingual reference on Japanese sake. History, brewing process, brands, terroir, categories, and standards in English, Japanese, and Traditional Chinese.'},
+  {title:'THE SPIRIT OF GIFU', url:'https://gifu.13studio.co/',
+   desc:'Trilingual book on Gifu Prefecture, Japan. Geography, history, culture, traditional crafts and sake brewing, in English, Japanese, and Traditional Chinese.'}
 ];
 
 /* ── STORAGE (guarded: throws when storage is blocked) ── */
@@ -692,7 +620,7 @@ drawerClose.addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
 document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeDrawer(); });
 
-/* ── DOMAINS & PROJECTS ── */
+/* ── LEDGER ── */
 function el(tag, cls, text){
   const n = document.createElement(tag);
   if(cls) n.className = cls;
@@ -700,78 +628,28 @@ function el(tag, cls, text){
   return n;
 }
 function hostOf(url){
-  try{ return new URL(url).host; }catch(e){ return url; }
+  try{
+    const u = new URL(url);
+    return u.host + (u.pathname === '/' ? '' : u.pathname.replace(/\/$/, ''));
+  }catch(e){ return url; }
 }
 
-PROJECTS.forEach(p=>{
-  if(!DOMAINS.some(d=>d.key===p.domain)) console.warn(`13STUDIO: "${p.title}" has unknown domain "${p.domain}"`);
-});
-
-// public domains, in DOMAINS order, each with its projects
-const LIVE = DOMAINS
-  .map(d=>({...d, projects: PROJECTS.filter(p=>p.domain===d.key)}))
-  .filter(d=>d.projects.length);
-
-function cardEl(p, label){
+function cardEl(p){
   const card = el('article', 'card');
-  card.dataset.cat = p.domain;
   card.dataset.url = p.url;
-  const meta = el('div', 'card-meta');
-  meta.append(el('span', 'card-cat', label));
   const line = el('div', 'card-title-line');
   line.append(el('span', 'card-title', p.title), el('span', 'card-leader'), el('span', 'card-domain', hostOf(p.url)));
   const main = el('div', 'card-main');
   main.append(line, el('div', 'card-desc', p.desc));
   const link = el('a', 'card-link', 'OPEN');
   link.href = p.url; link.target = '_blank'; link.rel = 'noopener';
-  card.append(meta, main, link);
+  card.append(main, link);
   return card;
 }
 
-document.getElementById('heroDomains').textContent = LIVE.map(d=>d.label).join('\u00a0· ');
-
-/* ── FILTER ── */
-const filterBar = document.getElementById('filterBar');
-const allGrid = document.getElementById('allGrid');
-const casesEl = document.getElementById('cases');
-
-function filterBtn(key, label, count){
-  const b = el('button', 'filter-btn', label + ' ');
-  b.type = 'button';
-  b.dataset.filter = key;
-  b.append(el('span', 'filter-count', String(count)));
-  return b;
-}
-filterBar.append(
-  filterBtn('all', 'ALL', LIVE.reduce((n,d)=>n + d.projects.length, 0)),
-  ...LIVE.map(d=>filterBtn(d.key, d.label, d.projects.length))
+document.getElementById('ledger').replaceChildren(
+  ...PROJECTS.map(p => p === '---' ? el('div', 'ledger-rule') : cardEl(p))
 );
-
-function setFilter(key){
-  const domain = LIVE.find(d=>d.key===key);
-  if(!domain) key = 'all';
-  filterBar.querySelectorAll('.filter-btn').forEach(b=>{
-    const on = b.dataset.filter === key;
-    b.classList.toggle('active', on);
-    b.setAttribute('aria-pressed', on);
-  });
-  if(!domain){
-    allGrid.replaceChildren(...LIVE.flatMap(d=>d.projects.map(p=>cardEl(p, d.label))));
-    allGrid.classList.remove('hidden');
-    casesEl.style.display = 'none';
-  }else{
-    const grid = el('div', 'grid');
-    grid.append(...domain.projects.map(p=>cardEl(p, domain.label)));
-    casesEl.replaceChildren(el('div', 'section-label', domain.label), grid);
-    casesEl.style.display = '';
-    allGrid.classList.add('hidden');
-  }
-}
-
-filterBar.addEventListener('click', e=>{
-  const b = e.target.closest('.filter-btn');
-  if(b) setFilter(b.dataset.filter);
-});
 
 /* ── CARD CLICK (delegated; the OPEN link handles itself) ── */
 document.addEventListener('click', e=>{
@@ -781,7 +659,6 @@ document.addEventListener('click', e=>{
 });
 
 /* ── BOOT ── */
-setFilter('all');
 applyPalette(currentPalette);
 </script>
 </body>
